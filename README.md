@@ -1,0 +1,1 @@
+# DailySquat-client2
