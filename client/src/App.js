@@ -26,6 +26,13 @@ class App extends Component {
     this.selectExercise = this.selectExercise.bind(this)
 
   }
+  handleCounting(count){
+    this.setState({
+      count : count
+    })
+    console.log("this is app.js state",this.state.count)
+ }
+
   // handleIsLoginChange() {
   //   this.setState({ isLogin: true });
   //   axios.get('http://localhost:4000/user').then(res => {
@@ -52,7 +59,7 @@ class App extends Component {
 
           <Route exact path="/Start" render={() => <Start />} />
 
-          <Route exact path="/Ing" render={() => <Ing />} />
+          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)}/>} />
 
           <Route exact path="/Result" render={() => <Result />} />
 
