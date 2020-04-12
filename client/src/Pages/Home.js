@@ -1,50 +1,49 @@
-
-// import Mypage from './Mypage'
-// import Start from './Start'
 import { withRouter } from 'react-router-dom';
-// Switch, Route,
-
 import React, { Component } from 'react'
+import { Container, Row, Col } from 'react-bootstrap';
 
 class Home extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-
         }
     }
 
     render() {
-        return (
-            <div>
-                Home.js
-                <button onClick={()=>{this.props.history.push('/Mypage')}}>Mypage</button>
-                {/* <Switch>
-                    <Route
-                    exact
-                        path="/Mypage"
-                        render={() => (
-                            <Mypage
-                            // isLogin={isLogin}
-                            // handleIsLoginChange={this.handleIsLoginChange.bind(this)}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/Start"
-                        render={() => (
-                            <Start
-                            // isLogin={isLogin}
-                            // handleIsLoginChange={this.handleIsLoginChange.bind(this)}
-                            />
-                        )}
-                    />
-                </Switch> */}
-            </div>
-        )
+        if (this.props.isLogin) {
+            return (
+                <Container>
+                    <Row>
+                        <Col>
+                            <button onClick={() => {
+                                this.props.history.push('/Mypage')
+                            }}>mypage</button> </Col>
+                        <Col>
+                            <div>
+                                <p />
+                                운동을 선택해 주세요!
+                                <p />
+                                <button className = 'exercise' onClick={() => {
+                                    this.props.history.push('/Start')
+                                    this.props.selectExercise(document.querySelector('.exercise').innerHTML)
+                                }}>squat</button>
+                                <button onClick={() => { }}>준비중</button>
+                                <button onClick={() => { }}>준비중</button>
+                            </div>
+                        </Col>
+                        <Col> </Col>
+                    </Row>
+                </Container>
+            )
+        } else {
+            return (
+                <div>
+                    {this.props.history.push('/Login')}
+                </div>
+            )
+        }
     }
 }
 
 export default withRouter(Home)
-

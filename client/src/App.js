@@ -7,8 +7,9 @@ import Ing from './Pages/Ing';
 import Mypage from './Pages/Mypage';
 import Result from './Pages/Result';
 import Start from './Pages/Start';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { Switch, Route, Redirect} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import React, { Component } from 'react'
 
@@ -17,10 +18,13 @@ class App extends Component {
     super(props)
 
     this.state = {
-      isLogin: true
-
+      isLogin: true,
+      count: null,
+      exercise: null
 
     }
+    this.selectExercise = this.selectExercise.bind(this)
+
   }
   // handleIsLoginChange() {
   //   this.setState({ isLogin: true });
@@ -29,35 +33,37 @@ class App extends Component {
   //     this.setState({ userinfo: res.data });
   //   });
   // }
+  selectExercise(data) {
+    this.setState({
+      exercise: data
+    })
+  }
 
   render() {
     return (
       <div>
-      
-          <Switch>
-            <Route path="/Login" render={() => (<Login // isLogin={isLogin} // handleIsLoginChange={this.handleIsLoginChange.bind(this)}
-            />)} />
-            <Route exact path="/Home" render={() => <Home />} />
 
-            <Route exact path="/Mypage" render={() => <Mypage />} />
+        <Switch>
+          <Route path="/Login" render={() => (<Login // isLogin={isLogin} // handleIsLoginChange={this.handleIsLoginChange.bind(this)}
+          />)} />
+          <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} />} />
 
-            <Route exact path="/Start" render={() => <Start />} />
+          <Route exact path="/Mypage" render={() => <Mypage />} />
 
-            <Route exact path="/Ing" render={() => <Ing />} />
+          <Route exact path="/Start" render={() => <Start />} />
 
-            <Route exact path="/Result" render={() => <Result />} />
+          <Route exact path="/Ing" render={() => <Ing />} />
 
-            <Route
-              path="/"
-              render={() => {
-                // if (this.state.isLogin) {
-                //   return <Home />;
-                // }
-                return <Login />;
-              }}
-            />
-          </Switch>
-       
+          <Route exact path="/Result" render={() => <Result />} />
+
+          <Route
+            path="/"
+            render={() => {
+              return <Redirect to="/Login" />;
+            }}
+          />
+        </Switch>
+
 
       </div>
     )
