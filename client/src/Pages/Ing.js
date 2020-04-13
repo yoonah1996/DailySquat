@@ -2,8 +2,9 @@ import * as tmPose from '@teachablemachine/pose';
 import './Ing.css';
 import React, { Component } from 'react'
 import Result from './Result'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
+var count =0;
 
 class Ing extends Component {
     constructor(props) {
@@ -53,7 +54,7 @@ class Ing extends Component {
             maxPredictions = model.getTotalClasses();
             // Convenience function to setup a webcam
             const size = 500;
-            const flip = false; // whether to flip the webcam
+            const flip = true; // whether to flip the webcam
             webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
             await webcam.setup(); // request access to the webcam
             await webcam.play();
@@ -74,7 +75,8 @@ class Ing extends Component {
         }
 
         // let status = 'stand'
-        let count = 0;
+        // var count = 0;
+        // console.log("count1",count)
         // count 변수 없이 setState함수에다 바로 +1해주게되면 랜더가2번일어나면서 스쿼트가2개씩증가하는것 같아서
         //render내부에서 카운팅을 해준것만 setstate로 넘겨주게되면 해결됌.
         // console.log(this.state.status)
@@ -92,6 +94,8 @@ class Ing extends Component {
                 if(this.state.status === 'squat'){
                     count++
                     this.handleCount(count)
+                    console.log("count2",count)
+                    
 
                     // this.props.handleCounting(count)
                     
@@ -133,12 +137,12 @@ class Ing extends Component {
                     <div id="label-container"></div>
                     <button className="button" type="button" onClick={init}>시작</button>
                     <button className="button" onClick={() => {
-                        this.props.handleCounting(this.state.count)
-                        this.props.history.push('/Result')
+                        this.props.handleCounting(count)
+                        // this.props.history.push('/Result')
                     }}>완료</button>
                 </div>
 
-                <div id="counter">{this.state.count}/</div>
+                <div id="counter">{this.state.count}/100</div>
                
                 
 
