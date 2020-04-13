@@ -133,7 +133,7 @@ class Ing extends Component {
                     <div id="label-container"></div>
                     <button className="button" type="button" onClick={init}>시작</button>
                     <button className="button" onClick={async (e) => {
-                        // e.preventDefault()
+                        e.preventDefault()
                         await this.handleWebCam();
                         this.props.handleCounting(count)
                         fetch('http://localhost:4000/count/saveCount', {
