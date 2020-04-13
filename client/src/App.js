@@ -84,7 +84,7 @@ class App extends Component {
           <Route
             path="/"
             render={() => {
-              return <Redirect to="/Login" />;
+              return <Redirect to="/Result" />;
             }}
           />
         </Switch>

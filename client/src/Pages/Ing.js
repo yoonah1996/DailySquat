@@ -17,11 +17,11 @@ class Ing extends Component {
         this.handleStatus = this.handleStatus.bind(this)
     }
 
-    componentWillUnmount(e) {
-        console.log("ing.js is unmounted")
-        window.location.reload()
+    // componentWillUnmount(e) {
+    //     console.log("ing.js is unmounted")
+    //     window.location.reload()
 
-    }
+    // }
 
 
     handleStatus(status) {
@@ -120,9 +120,9 @@ class Ing extends Component {
                     <div id="label-container"></div>
                     <button className="button" type="button" onClick={init}>시작</button>
                     <button className="button" onClick={(e) => {
-                        e.preventDefault()
+                        // e.preventDefault()
                         this.props.handleCounting(count)
-                        this.props.history.push('/Result')
+                        this.props.history.push('/')
 
                     }}>완료</button>
                 </div>
