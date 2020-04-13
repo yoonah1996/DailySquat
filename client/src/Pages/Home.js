@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 class Home extends Component {
     constructor(props) {
@@ -16,20 +16,20 @@ class Home extends Component {
                 <Container>
                     <Row>
                         <Col>
-                            <button onClick={() => {
+                            <Button variant = "secondary" onClick={() => {
                                 this.props.history.push('/Mypage')
-                            }}>mypage</button> </Col>
+                            }}>mypage</Button> </Col>
                         <Col>
                             <div>
                                 <p />
                                 운동을 선택해 주세요!
                                 <p />
-                                <button className = 'exercise' onClick={() => {
+                                <Button variant = "light" className = 'exercise' onClick={() => {
                                     this.props.history.push('/Start')
                                     this.props.selectExercise(document.querySelector('.exercise').innerHTML)
-                                }}>squat</button>
-                                <button onClick={() => { }}>준비중</button>
-                                <button onClick={() => { }}>준비중</button>
+                                }}>squat</Button>
+                                <Button variant = "light" onClick={() => { }}>준비중</Button>
+                                <Button variant = "light" onClick={() => { }}>준비중</Button>
                             </div>
                         </Col>
                         <Col> </Col>

@@ -1,8 +1,8 @@
 import * as tmPose from '@teachablemachine/pose';
 import './Ing.css';
 import React, { Component } from 'react'
-import Result from './Result'
-import { withRouter, Link } from 'react-router-dom';
+// import Result from './Result'
+import { withRouter } from 'react-router-dom';
 
 var count =0;
 
@@ -19,13 +19,6 @@ class Ing extends Component {
         this.handleStatus = this.handleStatus.bind(this)
     }
     
-    // handleCount(){
-        //    this.setState({
-            //         count : this.state.count +1
-            
-            //     })
-            // }
-            
             handleCount(count){
                 this.setState({
                     count : count
@@ -96,9 +89,6 @@ class Ing extends Component {
                     this.handleCount(count)
                     console.log("count2",count)
                     
-
-                    // this.props.handleCounting(count)
-                    
                 }
                 // status = 'stand'
                 this.handleStatus('stand')
@@ -138,15 +128,11 @@ class Ing extends Component {
                     <button className="button" type="button" onClick={init}>시작</button>
                     <button className="button" onClick={() => {
                         this.props.handleCounting(count)
-                        // this.props.history.push('/Result')
+                        this.props.history.push('/Result')
                     }}>완료</button>
                 </div>
 
-                <div id="counter">{this.state.count}/100</div>
-               
-                
-
-
+                <div id="counter">{this.state.count}/{this.props.selecCount}</div>
             </div>
         )
     }
