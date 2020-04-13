@@ -18,13 +18,12 @@ class App extends Component {
     super(props)
 
     this.state = {
-      isLogin: true,
+      isLogin: false,
       count: null,
       exercise: null
 
     }
     this.selectExercise = this.selectExercise.bind(this)
-
   }
   
   handleCounting(count){
@@ -33,6 +32,10 @@ class App extends Component {
     })
     console.log("this is app.js state",this.state.count)
  }
+
+ handleIsLogin() {
+  this.setState({ isLogin: true });
+}
 
   // handleIsLoginChange() {
   //   this.setState({ isLogin: true });
@@ -48,12 +51,19 @@ class App extends Component {
   }
 
   render() {
+    const { isLogin } = this.state;
+    const handleIsLogin = this.handleIsLogin.bind(this)
+
     return (
       <div>
 
         <Switch>
-          <Route path="/Login" render={() => (<Login // isLogin={isLogin} // handleIsLoginChange={this.handleIsLoginChange.bind(this)}
-          />)} />
+          <Route path="/Login" render={(...routeProps) => {
+            if (this.state.isLogin) {
+              return <Redirect to="/Home" />;
+            }
+            return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />
+          }} />
           <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} />} />
 
           <Route exact path="/Mypage" render={() => <Mypage />} />
