@@ -26,6 +26,7 @@ class App extends Component {
     this.selectExercise = this.selectExercise.bind(this)
 
   }
+  
   handleCounting(count){
     this.setState({
       count : count
