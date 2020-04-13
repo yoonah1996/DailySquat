@@ -11,22 +11,29 @@ class Ing extends Component {
         super(props)
 
         this.state = {
-            status: null
+            status: null,
+            webCam: false
         }
 
         this.handleStatus = this.handleStatus.bind(this)
+        this.handleWebCam = this.handleWebCam.bind(this)
     }
 
-    componentWillUnmount(e) {
-        console.log("ing.js is unmounted")
-        window.location.reload()
+    // componentWillUnmount(e) {
+    //     console.log("ing.js is unmounted")
+    //     window.location.reload()
 
-    }
+    // }
 
 
     handleStatus(status) {
         this.setState({
             status: status
+        })
+    }
+    handleWebCam(status) {
+        this.setState({
+            webCam: true
         })
     }
 
@@ -35,21 +42,26 @@ class Ing extends Component {
 
 
         const URL = "https://teachablemachine.withgoogle.com/models/H0Lk1SskY/";
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
         let model, webcam, ctx, labelContainer, maxPredictions;
-        async function init() {
-            const modelURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
+        const size = 500;
+        const flip = true; // whether to flip the webcam
+        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+
+        let init = async () => {
+
+            model = await tmPose.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
             // load the model and metadata
             // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
             // Note: the pose library adds a tmPose object to your window (window.tmPose)
-            model = await tmPose.load(modelURL, metadataURL);
-            maxPredictions = model.getTotalClasses();
+
             // Convenience function to setup a webcam
-            const size = 500;
-            const flip = true; // whether to flip the webcam
-            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+
             await webcam.setup(); // request access to the webcam
             await webcam.play();
+            console.log("1")
             window.requestAnimationFrame(loop);
             // append/get elements to the DOM
             const canvas = document.getElementById("canvas");
@@ -59,13 +71,17 @@ class Ing extends Component {
             for (let i = 0; i < maxPredictions; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
             }
+
         }
-        async function loop(timestamp) {
+        let loop = async (timestamp) => {
             webcam.update(); // update the webcam frame
             await predict();
+            if (!!this.state.webCam) {
+                return await webcam.stop();
+            }
             window.requestAnimationFrame(loop);
         }
-         console.log(count)
+        //  console.log(count)
 
         let predict = async () => {
             // Prediction #1: run input through posenet
@@ -79,9 +95,6 @@ class Ing extends Component {
                     count++
 
                     console.log("this is ing.js state=>count", count)
-
-
-
                 }
                 // status = 'stand'
                 this.handleStatus('stand')
@@ -119,9 +132,21 @@ class Ing extends Component {
                     <div><canvas id="canvas"></canvas></div>
                     <div id="label-container"></div>
                     <button className="button" type="button" onClick={init}>시작</button>
-                    <button className="button" onClick={(e) => {
-                        e.preventDefault()
+                    <button className="button" onClick={async (e) => {
+                        // e.preventDefault()
+                        await this.handleWebCam();
                         this.props.handleCounting(count)
+                        fetch('http://localhost:4000/count/saveCount', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                categoryId: "1",
+                                count: count
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
+                            }
+                        })
                         this.props.history.push('/Result')
 
                     }}>완료</button>
