@@ -4,44 +4,36 @@ import React, { Component } from 'react'
 import Result from './Result'
 import { withRouter, Link } from 'react-router-dom';
 
-var count =0;
+var count = 0;
 
 class Ing extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-         count : 0,
-         status : null
+            status: null
         }
-        
-        this.handleCount = this.handleCount.bind(this)
+
         this.handleStatus = this.handleStatus.bind(this)
     }
-    
-    // handleCount(){
-        //    this.setState({
-            //         count : this.state.count +1
-            
-            //     })
-            // }
-            
-            handleCount(count){
-                this.setState({
-                    count : count
-                    
-                })
-            }
-            handleStatus(status){
-                this.setState({
-                    status : status
-                })
-            }
-            
-            
-            
-            render() {
-                // const {count, status} = this.state
+
+    componentWillUnmount(e) {
+        console.log("ing.js is unmounted")
+        window.location.reload()
+
+    }
+
+
+    handleStatus(status) {
+        this.setState({
+            status: status
+        })
+    }
+
+
+    render() {
+
+
         const URL = "https://teachablemachine.withgoogle.com/models/H0Lk1SskY/";
         let model, webcam, ctx, labelContainer, maxPredictions;
         async function init() {
@@ -73,37 +65,28 @@ class Ing extends Component {
             await predict();
             window.requestAnimationFrame(loop);
         }
+         console.log(count)
 
-        // let status = 'stand'
-        // var count = 0;
-        // console.log("count1",count)
-        // count 변수 없이 setState함수에다 바로 +1해주게되면 랜더가2번일어나면서 스쿼트가2개씩증가하는것 같아서
-        //render내부에서 카운팅을 해준것만 setstate로 넘겨주게되면 해결됌.
-        // console.log(this.state.status)
-        // console.log(this.state.count)
-       
-        
-       let predict = async() => {
+        let predict = async () => {
             // Prediction #1: run input through posenet
             // estimatePose can take in an image, video or canvas html element
             const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
             // Prediction 2: run input through teachable machine classification model
             const prediction = await model.predict(posenetOutput);
             //가능성을 나타내는 함수
-            if(prediction[0].probability.toFixed(2) > 0.80) {
-                if(this.state.status === 'squat'){
+            if (prediction[0].probability.toFixed(2) > 0.80) {
+                if (this.state.status === 'squat') {
                     count++
-                    this.handleCount(count)
-                    console.log("count2",count)
-                    
 
-                    // this.props.handleCounting(count)
-                    
+                    console.log("this is ing.js state=>count", count)
+
+
+
                 }
                 // status = 'stand'
                 this.handleStatus('stand')
-                
-            } else if(prediction[1].probability.toFixed(2) > 0.80){
+
+            } else if (prediction[1].probability.toFixed(2) > 0.80) {
                 // status = 'squat'
                 this.handleStatus('squat')
 
@@ -136,15 +119,17 @@ class Ing extends Component {
                     <div><canvas id="canvas"></canvas></div>
                     <div id="label-container"></div>
                     <button className="button" type="button" onClick={init}>시작</button>
-                    <button className="button" onClick={() => {
+                    <button className="button" onClick={(e) => {
+                        e.preventDefault()
                         this.props.handleCounting(count)
-                        // this.props.history.push('/Result')
+                        this.props.history.push('/Result')
+
                     }}>완료</button>
                 </div>
 
-                <div id="counter">{this.state.count}/100</div>
-               
-                
+                <div id="counter">{count}/100</div>
+
+
 
 
             </div>
