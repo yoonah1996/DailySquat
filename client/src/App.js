@@ -65,13 +65,16 @@ class App extends Component {
       <div>
 
         <Switch>
+          
           <Route path="/Login" render={(...routeProps) => {
-            if (this.state.isLogin) {
-              return <Redirect to="/Home" />;
+            if (isLogin) {
+              return <Home isLogin={isLogin} selectExercise={this.selectExercise} />;
             }
             return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />
           }} />
-          <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} />} />
+
+
+          <Route exact path="/Home" render={() => <Home isLogin={isLogin} selectExercise={this.selectExercise} />} />
 
           <Route exact path="/Mypage" render={() => <Mypage />} />
 
@@ -81,10 +84,15 @@ class App extends Component {
 
           <Route exact path="/Result" render={() => <Result count = {this.state.count}/>} />
 
+
+
           <Route
             path="/"
-            render={() => {
-              return <Redirect to="/Login" />;
+            render={(...routeProps) => {
+              if(isLogin) {
+                return <Home isLogin={isLogin} selectExercise={this.selectExercise} />;
+              }
+              return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />;
             }}
           />
         </Switch>
