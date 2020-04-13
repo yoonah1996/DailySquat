@@ -18,7 +18,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      isLogin: false,
+      isLogin: true,
       count: null,
       exercise: null,
       selecCount : null

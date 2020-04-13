@@ -17,11 +17,11 @@ class Ing extends Component {
         this.handleStatus = this.handleStatus.bind(this)
     }
 
-    componentWillUnmount(e) {
-        console.log("ing.js is unmounted")
-        window.location.reload()
+    // componentWillUnmount(e) {
+    //     console.log("ing.js is unmounted")
+    //     window.location.reload()
 
-    }
+    // }
 
 
     handleStatus(status) {
@@ -37,6 +37,7 @@ class Ing extends Component {
         const URL = "https://teachablemachine.withgoogle.com/models/H0Lk1SskY/";
         let model, webcam, ctx, labelContainer, maxPredictions;
         async function init() {
+
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
             // load the model and metadata
@@ -48,9 +49,12 @@ class Ing extends Component {
             const size = 500;
             const flip = true; // whether to flip the webcam
             webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+
             await webcam.setup(); // request access to the webcam
             await webcam.play();
+
             window.requestAnimationFrame(loop);
+
             // append/get elements to the DOM
             const canvas = document.getElementById("canvas");
             canvas.width = size; canvas.height = size;
@@ -59,13 +63,21 @@ class Ing extends Component {
             for (let i = 0; i < maxPredictions; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
             }
+
+
+        }
+
+        async function initCli() {
+            await webcam.stop(); // request access to the webcam
+            // await webcam.();
+
         }
         async function loop(timestamp) {
             webcam.update(); // update the webcam frame
             await predict();
             window.requestAnimationFrame(loop);
         }
-         console.log(count)
+        console.log(count.stop)
 
         let predict = async () => {
             // Prediction #1: run input through posenet
@@ -122,6 +134,7 @@ class Ing extends Component {
                     <button className="button" onClick={(e) => {
                         e.preventDefault()
                         this.props.handleCounting(count)
+                        initCli()
                         this.props.history.push('/Result')
 
                     }}>완료</button>
