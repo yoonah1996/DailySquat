@@ -20,12 +20,13 @@ class App extends Component {
     this.state = {
       isLogin: false,
       count: null,
-      exercise: null
+      exercise: null,
+      selecCount : null
 
     }
     this.selectExercise = this.selectExercise.bind(this)
   }
-  
+
   handleCounting(count){
     this.setState({
       count : count
@@ -50,6 +51,12 @@ class App extends Component {
     })
   }
 
+  selectCount(data) {
+    this.setState({
+      selecCount: Number(data)
+    })
+  }
+
   render() {
     const { isLogin } = this.state;
     const handleIsLogin = this.handleIsLogin.bind(this)
@@ -68,11 +75,11 @@ class App extends Component {
 
           <Route exact path="/Mypage" render={() => <Mypage />} />
 
-          <Route exact path="/Start" render={() => <Start />} />
+          <Route exact path="/Start" render={() => <Start selectCount = {this.selectCount.bind(this)}/>} />
 
-          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)}/>} />
+          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selecCount = {this.state.selecCount} exercise = {this.state.exercise}/>} />
 
-          <Route exact path="/Result" render={() => <Result />} />
+          <Route exact path="/Result" render={() => <Result count = {this.state.count}/>} />
 
           <Route
             path="/"

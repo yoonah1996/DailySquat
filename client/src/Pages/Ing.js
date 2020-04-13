@@ -1,8 +1,8 @@
 import * as tmPose from '@teachablemachine/pose';
 import './Ing.css';
 import React, { Component } from 'react'
-import Result from './Result'
-import { withRouter, Link } from 'react-router-dom';
+// import Result from './Result'
+import { withRouter } from 'react-router-dom';
 
 var count = 0;
 
