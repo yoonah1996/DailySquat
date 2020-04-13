@@ -121,7 +121,20 @@ class Ing extends Component {
                     <button className="button" type="button" onClick={init}>시작</button>
                     <button className="button" onClick={(e) => {
                         e.preventDefault()
-                        this.props.handleCounting(count)
+                        // this.props.handleCounting(count)
+
+                        fetch('http://localhost:4000/count/saveCount', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                categoryId: "1",
+                                count: count
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
+                            }
+                        })
+
                         this.props.history.push('/Result')
 
                     }}>완료</button>
