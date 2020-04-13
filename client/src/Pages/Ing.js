@@ -120,7 +120,7 @@ class Ing extends Component {
                     <div id="label-container"></div>
                     <button className="button" type="button" onClick={init}>시작</button>
                     <button className="button" onClick={(e) => {
-                        // e.preventDefault()
+                        e.preventDefault()
                         this.props.handleCounting(count)
                         this.props.history.push('/')
 
