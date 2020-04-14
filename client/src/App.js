@@ -86,6 +86,28 @@ class App extends Component {
       })
   }
 
+  getUserInfo = () => {
+    fetch('http://localhost:4000/users/info', {
+      method: 'GET',
+      headers: {
+        accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
+      }
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((userInfo) => {
+        this.setState({
+          userInfo: {
+            name: userInfo.name,
+            email: userInfo.email,
+            age: userInfo.age,
+            gender: userInfo.gender,
+            createdAt: userInfo.createdAt,
+          }
+        })
+      })
+  }
   getTotalCount = () => {
     fetch('http://localhost:4000/count/getTotalCount/1', {
       method: 'GET',
