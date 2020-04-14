@@ -26,6 +26,7 @@ class Ing extends Component {
     // }
 
 
+
     handleStatus(status) {
         this.setState({
             status: status
@@ -152,7 +153,7 @@ class Ing extends Component {
                     }}>완료</button>
                 </div>
 
-                <div id="counter">{count}/{this.props.selectCount}</div>
+                <div id="counter">{count}/{localStorage.getItem('goalCount')}</div>
 
 
 
