@@ -168,7 +168,7 @@ class App extends Component {
 
           <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} handleSignOut={this.handleSignOut.bind(this)} isLogin={this.state.isLogin}/>} />
 
-          <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} />} />
+          <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} selectedCount = {this.state.selectCount} />} />
 
           <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selectCount = {this.state.selectCount} exercise = {this.state.exercise}/>} />
 
