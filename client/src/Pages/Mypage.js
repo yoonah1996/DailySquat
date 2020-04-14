@@ -113,9 +113,13 @@ class Mypage extends Component {
               this.props.history.push('/')
             }}>로그아웃</button>
             <button onClick={() => {
-              this.secession();
-              this.props.handleSignOut();
-              this.props.history.push('/')
+              let result = window.confirm("탈퇴하시겠습니까?")
+              if(result){
+                this.secession();
+                this.props.handleSignOut();
+                localStorage.clear()
+                this.props.history.push('/')
+              }
             }}>회원탈퇴</button>
           </Col>
           <Col></Col>
