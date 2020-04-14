@@ -44,6 +44,10 @@ class App extends Component {
     this.setState({ isLogin: true });
   }
 
+  handleSignOut() {
+    this.setState({ isLogin: false });
+  }
+
   // handleIsLoginChange() {
   //   this.setState({ isLogin: true });
   //   axios.get('http://localhost:4000/user').then(res => {
@@ -63,28 +67,28 @@ class App extends Component {
     })
   }
 
-  getUserInfo = () => {
-    fetch('http://localhost:4000/users/info', {
-      method: 'GET',
-      headers: {
-        accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
-      }
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((userInfo) => {
-        this.setState({
-          userInfo: {
-            name: userInfo.name,
-            email: userInfo.email,
-            age: userInfo.age,
-            gender: userInfo.gender,
-            createdAt: userInfo.createdAt,
-          }
-        })
-      })
-  }
+  // getUserInfo = () => {
+  //   fetch('http://localhost:4000/users/info', {
+  //     method: 'GET',
+  //     headers: {
+  //       accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
+  //     }
+  //   })
+  //     .then((data) => {
+  //       return data.json();
+  //     })
+  //     .then((userInfo) => {
+  //       this.setState({
+  //         userInfo: {
+  //           name: userInfo.name,
+  //           email: userInfo.email,
+  //           age: userInfo.age,
+  //           gender: userInfo.gender,
+  //           createdAt: userInfo.createdAt,
+  //         }
+  //       })
+  //     })
+  // }
 
   getUserInfo = () => {
     fetch('http://localhost:4000/users/info', {
@@ -144,7 +148,7 @@ class App extends Component {
           }} />
           <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} getTotalCount={this.getTotalCount.bind(this)}/>} />
 
-          <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} />} />
+          <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} handleSignOut={this.handleSignOut.bind(this)}/>} />
 
           <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} />} />
 
@@ -172,8 +176,3 @@ class App extends Component {
 }
 
 export default App
-
-// if (this.state.isLogin) {
-//   return <Redirect to = "/Home" />;
-// }
-

@@ -32,7 +32,7 @@ const LoginPage = styled.div`
     padding: 12% 0 0;
     margin: auto;
     `;
-    
+
 const Headline = styled.h1`
     font-family: "Roboto", sans-serif;
     width: 360px;
@@ -115,219 +115,225 @@ const Register = styled.form`
 `;
 
 class Login extends Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props)
 
-        this.state = {
-
-        }
-
-    }
-    async componentDidMount() {
-        const { naver } = window;
-        const props = this.props;
-
-        let info;
-
-        var naverLogin = new naver.LoginWithNaverId(
-            {
-                clientId: "t84crdEirUVGvCH6Sncf",
-                callbackUrl: "http://localhost:3000",
-                isPopup: false, /* 팝업을 통한 연동처리 여부 */
-                loginButton: { color: "green", type: 3, height: 58 } /* 로그인 버튼의 타입을 지정 */
-            }
-        );
-
-        /* 설정정보를 초기화하고 연동을 준비 */
-        naverLogin.init();
-
-        naverLogin.getLoginStatus(async (status) => {
-            if (status) {
-                info = {
-                    email: naverLogin.user.getEmail(),
-                    name: naverLogin.user.getNickName(),
-                    password: "12345",
-                    gender: naverLogin.user.getGender(),
-                    age: naverLogin.user.getAge(),
-                }
-                console.log("info: ", info);
-
-                let isDuplicate =
-                    await fetch(`http://localhost:4000/users/isDuplicate/${info.email}`)
-                        .then(res => res.json());
-
-                // console.log(isDuplicate);
-
-                if (!isDuplicate) {
-                    console.log("등록된 이메일이 아닙니다");
-
-                    fetch("http://localhost:4000/users/signup", {
-                        method: 'POST',
-                        body: JSON.stringify(info),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(res => {
-
-                        if (res.ok) {
-                            alert("회원가입 완료");
-                        } else {
-                            alert("회원가입 실패");
-                        }
-                    })
-
-                }
-
-                fetch("http://localhost:4000/users/signin", {
-                    method: 'POST',
-                    body: JSON.stringify({ email: info.email, password: info.password }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        // console.log(data);
-                        localStorage.setItem('dailySquatToken', data);
-
-                        // console.log(props)
-                        props.handleIsLogin();
-                    })
-            } else {
-                console.log("AccessToken이 올바르지 않습니다.");
-            }
-        });
+    this.state = {
 
     }
 
-    toggle = () => {
-        $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
-    };
+  }
+  async componentDidMount() {
+    const { naver } = window;
+    const props = this.props;
 
-    signup = (e) => {
-        e.preventDefault();
+    let info;
 
-        let info = {
-            name: $('.name').val(),
-            email: $('.email').val(),
-            password: $('.password').val(),
-            age: $('.age').val(),
-            gender: $('.gender').val(),
+    var naverLogin = new naver.LoginWithNaverId(
+      {
+        clientId: "t84crdEirUVGvCH6Sncf",
+        callbackUrl: "http://localhost:3000",
+        isPopup: false, /* 팝업을 통한 연동처리 여부 */
+        loginButton: { color: "green", type: 3, height: 58 } /* 로그인 버튼의 타입을 지정 */
+      }
+    );
+
+    /* 설정정보를 초기화하고 연동을 준비 */
+    naverLogin.init();
+
+    naverLogin.getLoginStatus(async (status) => {
+      if (status) {
+        info = {
+          email: naverLogin.user.getEmail(),
+          name: naverLogin.user.getNickName(),
+          password: "12345",
+          gender: naverLogin.user.getGender(),
+          age: naverLogin.user.getAge(),
         }
+        console.log("info: ", info);
 
-        // console.log("인포입니다 : ", info);
+        let isDuplicate =
+          await fetch(`http://localhost:4000/users/isDuplicate/${info.email}`)
+            .then(res => res.json());
 
-        if (!info.email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)) {
-            alert("이메일을 다시 입력해주세요!");
-            return;
-        }
+        // console.log(isDuplicate);
 
-        if (!info.name.match(/^[가-힣a-zA-Z0-9]{2,10}$/)) {
-            alert("이름을 다시 입력해주세요!");
-            return;
-        }
+        if (!isDuplicate) {
+          console.log("등록된 이메일이 아닙니다");
 
-        fetch("http://localhost:4000/users/signup", {
+          fetch("http://localhost:4000/users/signup", {
             method: 'POST',
             body: JSON.stringify(info),
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json'
             }
-        }).then(res => {
+          }).then(res => {
 
             if (res.ok) {
-                alert("회원가입 완료");
-                $('.name').val('');
-                $('.email').val('');
-                $('.password').val('');
-                $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
-
+              alert("회원가입 완료");
             } else {
-                alert("회원가입 실패");
+              alert("회원가입 실패");
             }
-        })
+          })
 
-
-
-    }
-
-    signin = (e) => {
-        e.preventDefault();
-
-        let info = {
-            email: $('.login_email').val(),
-            password: $('.login_password').val(),
-        }
-
-        if (!info.email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)) {
-            alert("이메일을 다시 입력해주세요!");
-            return;
         }
 
         fetch("http://localhost:4000/users/signin", {
-            method: 'POST',
-            body: JSON.stringify(info),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+          method: 'POST',
+          body: JSON.stringify({ email: info.email, password: info.password }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                localStorage.setItem('dailySquatToken', data);
-            })
+          .then(res => res.json())
+          .then(data => {
+            // console.log(data);
+            localStorage.setItem('dailySquatToken', data);
 
-        this.props.handleIsLogin();
+            // console.log(props)
+            props.handleIsLogin();
+          })
+      } else {
+        console.log("AccessToken이 올바르지 않습니다.");
+      }
+    });
+
+  }
+
+  toggle = () => {
+    $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
+  };
+
+  signup = (e) => {
+    e.preventDefault();
+
+    let info = {
+      name: $('.name').val(),
+      email: $('.email').val(),
+      password: $('.password').val(),
+      age: $('.age').val(),
+      gender: $('.gender').val(),
     }
 
+    // console.log("인포입니다 : ", info);
 
-    render() {
-        // console.log(window)
-
-        return (
-            <>
-                <Background>
-                    <LoginPage>
-                        <Headline>DailySquat</Headline>
-                        <FormDiv>
-                            <Register className="register-form" method="post" onSubmit={this.signup}>
-                                <Input className="email" type="email" placeholder="이메일" />
-                                <Input className="password" type="password" placeholder="비밀번호" />
-                                <Input className="name" type="" placeholder="이름" />
-                                <Select className="gender">
-                                    <option value="m">남자</option>
-                                    <option value="f">여자</option>
-                                </Select>
-                                <Select className="age">
-                                    <option value="10">10대</option>
-                                    <option value="20">20대</option>
-                                    <option value="30">30대</option>
-                                    <option value="40">40대</option>
-                                    <option value="50">50대 이상</option>
-                                </Select>
-
-                                <Button type="submit" /* onClick={this.signup} */>create</Button>
-                                <Message className="message">Already registered? <MessageLink onClick={this.toggle} href="#">Sign In</MessageLink></Message>
-                            </Register>
-
-                            <form className="login-form">
-                                <Input className="login_email" type="text" placeholder="이메일" />
-                                <Input className="login_password" type="password" placeholder="비밀번호" />
-                                <Button onClick={this.signin}>login</Button>
-                                <br />
-                                {/* <br /> */}
-                                {/* <hr /> */}
-                                <br />
-                                <div id="naverIdLogin"></div>
-                                <Message className="message">Not registered? <MessageLink onClick={this.toggle} href="#">Create an account</MessageLink></Message>
-
-                            </form>
-                        </FormDiv>
-                    </LoginPage>
-                </Background>
-            </>
-        )
+    if (!info.email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)) {
+      alert("이메일을 다시 입력해주세요!");
+      return;
     }
+
+    if (!info.name.match(/^[가-힣a-zA-Z0-9]{2,10}$/)) {
+      alert("이름을 다시 입력해주세요!");
+      return;
+    }
+
+    fetch("http://localhost:4000/users/signup", {
+      method: 'POST',
+      body: JSON.stringify(info),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+
+      if (res.ok) {
+        alert("회원가입 완료");
+        $('.name').val('');
+        $('.email').val('');
+        $('.password').val('');
+        $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
+
+      } else {
+        alert("회원가입 실패");
+      }
+    })
+
+
+
+  }
+
+  signin = (e) => {
+    e.preventDefault();
+
+    let info = {
+      email: $('.login_email').val(),
+      password: $('.login_password').val(),
+    }
+
+    if (!info.email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)) {
+      alert("이메일을 다시 입력해주세요!");
+      return;
+    }
+
+    fetch("http://localhost:4000/users/signin", {
+      method: 'POST',
+      body: JSON.stringify(info),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        localStorage.setItem('dailySquatToken', data);
+        if (localStorage.getItem('dailySquatToken')) {
+          this.props.handleIsLogin();
+        } else {
+          alert("이메일 또는 비밀번호를 확인해주세요");
+        };
+      })
+      .catch((err) => alert("일 수 없는 에러 발생"));
+
+
+  }
+
+
+  render() {
+    // console.log(window)
+
+    return (
+      <>
+        <Background>
+          <LoginPage>
+            <Headline>DailySquat</Headline>
+            <FormDiv>
+              <Register className="register-form" method="post" onSubmit={this.signup}>
+                <Input className="email" type="email" placeholder="이메일" />
+                <Input className="password" type="password" placeholder="비밀번호" />
+                <Input className="name" type="" placeholder="이름" />
+                <Select className="gender">
+                  <option value="m">남자</option>
+                  <option value="f">여자</option>
+                </Select>
+                <Select className="age">
+                  <option value="10">10대</option>
+                  <option value="20">20대</option>
+                  <option value="30">30대</option>
+                  <option value="40">40대</option>
+                  <option value="50">50대 이상</option>
+                </Select>
+
+                <Button type="submit" /* onClick={this.signup} */>create</Button>
+                <Message className="message">Already registered? <MessageLink onClick={this.toggle} href="#">Sign In</MessageLink></Message>
+              </Register>
+
+              <form className="login-form">
+                <Input className="login_email" type="text" placeholder="이메일" />
+                <Input className="login_password" type="password" placeholder="비밀번호" />
+                <Button onClick={this.signin}>login</Button>
+                <br />
+                {/* <br /> */}
+                {/* <hr /> */}
+                <br />
+                <div id="naverIdLogin"></div>
+                <Message className="message">Not registered? <MessageLink onClick={this.toggle} href="#">Create an account</MessageLink></Message>
+
+              </form>
+            </FormDiv>
+          </LoginPage>
+        </Background>
+      </>
+    )
+  }
 }
 
 export default Login
