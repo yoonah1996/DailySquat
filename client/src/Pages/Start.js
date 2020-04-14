@@ -13,15 +13,13 @@ function Start(props) {
                 <Col></Col>
                 <Col md='center' >
                     <Alert show={show} variant="secondary" ><Alert.Heading>세트 당 수행 횟수를 입력하고 시작 버튼을 누르세요!</Alert.Heading>
-                        <ToggleButtonGroup name='selectCo' type="radio" onChange={(value) => props.selectCount(value)} >
+                        <ToggleButtonGroup name='selectCo' type="radio" onChange = {(value) => localStorage.setItem('goalCount',value)} >
                             <ToggleButton variant="secondary" value='30' size="lg">30개</ToggleButton>
                             <ToggleButton variant="secondary" value='50' size="lg">50개</ToggleButton>
                             <ToggleButton variant="secondary" value='100' size="lg">100개</ToggleButton>
                             <ToggleButton variant="secondary"  size="lg" onClick={() => {
                                 setShow(false)
                                 desetShow(true)
-                                console.log(show)
-                                console.log(desetShow)
                             }}>지정하기</ToggleButton>
                         </ToggleButtonGroup>
                     </Alert>
@@ -36,7 +34,8 @@ function Start(props) {
                             <FormControl
                             className="countAdd"
                             onChange={() =>{
-                                props.selectCount(document.querySelector('.countAdd').value)
+                                localStorage.setItem('goalCount', document.querySelector('.countAdd').value)
+                                // props.selectCount(document.querySelector('.countAdd').value)
                             }}
                             />
                         </InputGroup>
