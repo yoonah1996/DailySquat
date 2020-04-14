@@ -59,7 +59,7 @@ class App extends Component {
 
   selectCount(data) {
     this.setState({
-      selecCount: Number(data)
+      selectCount: Number(data)
     })
   }
 
@@ -113,9 +113,10 @@ class App extends Component {
       <div>
 
         <Switch>
+          
           <Route path="/Login" render={(...routeProps) => {
-            if (this.state.isLogin) {
-              return <Redirect to="/Home" />;
+            if (isLogin) {
+              return <Home isLogin={isLogin} selectExercise={this.selectExercise} />;
             }
             return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />
           }} />
@@ -125,14 +126,19 @@ class App extends Component {
 
           <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} />} />
 
-          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selecCount={this.state.selecCount} exercise={this.state.exercise} />} />
+          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selectCount = {this.state.selectCount} exercise = {this.state.exercise}/>} />
 
           <Route exact path="/Result" render={() => <Result count={this.state.count} />} />
 
+
+
           <Route
             path="/"
-            render={() => {
-              return <Redirect to="/Login" />;
+            render={(...routeProps) => {
+              if(isLogin) {
+                return <Home isLogin={isLogin} selectExercise={this.selectExercise} />;
+              }
+              return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />;
             }}
           />
         </Switch>
