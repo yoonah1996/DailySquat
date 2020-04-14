@@ -19,7 +19,7 @@ class Home extends Component {
             <Col>
               <Button variant="secondary" onClick={() => {
                 this.props.getUserInfo();
-                this.props.getTotalCount();
+                // this.props.getTotalCount();
                 this.props.history.push('/Mypage');
               }}>mypage</Button> </Col>
             <Col>
