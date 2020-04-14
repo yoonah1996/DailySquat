@@ -44,7 +44,7 @@ function Start(props) {
 
                     <p />
                     <Button variant="secondary" onClick={() => {
-                        if (!!props.selectedCount) {
+                        if (!!localStorage.getItem('goalCount')) {
                             props.history.push('/Ing')
                         } else {
                             alert('스쿼트 갯수를 선택해 주세요!')
