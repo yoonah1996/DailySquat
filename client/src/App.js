@@ -28,7 +28,7 @@ class App extends Component {
         gender: null,
         createdAt: null,
       },
-      totalCount: 0,
+      // totalCount: 0,
     }
     this.selectExercise = this.selectExercise.bind(this);
     // this.checkTocken = this.checkTocken.bind(this);
@@ -119,28 +119,28 @@ class App extends Component {
         })
       })
   }
-  getTotalCount = () => {
-    fetch('http://localhost:4000/count/getTotalCount/1', {
-      method: 'GET',
-      headers: {
-        accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
-      }
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((value) => {
-        console.log(value.totalCount)
-        this.setState({
-          totalCount: value.totalCount
-        })
-      })
-  }
+  // getTotalCount = () => {
+  //   fetch('http://localhost:4000/count/getTotalCount/1', {
+  //     method: 'GET',
+  //     headers: {
+  //       accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
+  //     }
+  //   })
+  //     .then((data) => {
+  //       return data.json();
+  //     })
+  //     .then((value) => {
+  //       console.log(value.totalCount)
+  //       this.setState({
+  //         totalCount: value.totalCount
+  //       })
+  //     })
+  // }
 
   componentWillMount(data){
     if(localStorage.getItem('dailySquatToken')){
       this.setState({ isLogin: true });
-      this.getTotalCount();
+      // this.getTotalCount();
       this.getUserInfo();
     }else{
       return null
@@ -164,9 +164,9 @@ class App extends Component {
             }
             return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />
           }} />
-          <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} getTotalCount={this.getTotalCount.bind(this)}/>} />
+          <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} /* getTotalCount={this.getTotalCount.bind(this)} *//>} />
 
-          <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} handleSignOut={this.handleSignOut.bind(this)} isLogin={this.state.isLogin}/>} />
+          <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} /* totalCount={this.state.totalCount} */ handleSignOut={this.handleSignOut.bind(this)} isLogin={this.state.isLogin}/>} />
 
           <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} selectedCount = {this.state.selectCount} />} />
 
@@ -180,7 +180,7 @@ class App extends Component {
             path="/"
             render={(...routeProps) => {
               if(isLogin) {
-                return <Home isLogin={isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} getTotalCount={this.getTotalCount.bind(this)}/>;
+                return <Home isLogin={isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} /* getTotalCount={this.getTotalCount.bind(this)} *//>;
               }
               return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />;
             }}
