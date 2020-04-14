@@ -75,32 +75,34 @@ class Mypage extends Component {
   }
 
   componentWillMount() {
-      fetch('http://localhost:4000/count/getTotalCount/1', {
-        method: 'GET',
-        headers: {
-          accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
-        }
+    fetch('http://localhost:4000/count/getTotalCount/1', {
+      method: 'GET',
+      headers: {
+        accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
+      }
+    })
+      .then((data) => {
+        return data.json();
       })
-        .then((data) => {
-          return data.json();
+      .then((value) => {
+        console.log(value.totalCount)
+        this.setState({
+          totalCount: value.totalCount
         })
-        .then((value) => {
-          console.log(value.totalCount)
-          this.setState({
-            totalCount: value.totalCount
-          })
-        })
+      })
   }
 
   render() {
     console.log('props!!!!!!! : ', this.props);
 
     const { userInfo } = this.props;
-    
+
     return (
       <Container>
         <Row>
-          <Col></Col>
+          <Col><Button variant="secondary" onClick={() => {
+            this.props.history.push('/Home');
+          }}>Home</Button></Col>
           <Col>
             <div>아이디 : {JSON.parse(userInfo).email}</div>
             <div> 회원등록 일자 : {JSON.parse(userInfo).createdAt}</div>
