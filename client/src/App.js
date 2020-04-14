@@ -20,7 +20,7 @@ class App extends Component {
       isLogin: false,
       count: null,
       exercise: null,
-      selecCount: null,
+      selectCount: null,
       userInfo: {
         name: null,
         email: null,
@@ -146,7 +146,7 @@ class App extends Component {
 
           <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} />} />
 
-          <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} />} />
+          <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} selectedCount = {this.state.selectCount} />} />
 
           <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selectCount = {this.state.selectCount} exercise = {this.state.exercise}/>} />
 
