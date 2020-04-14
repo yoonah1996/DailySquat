@@ -126,7 +126,7 @@ class Login extends Component {
         /* 설정정보를 초기화하고 연동을 준비 */
         naverLogin.init();
 
-        naverLogin.getLoginStatus(async function (status) {
+        naverLogin.getLoginStatus(async (status) => {
             if (status) {
                 info = {
                     email: naverLogin.user.getEmail(),
