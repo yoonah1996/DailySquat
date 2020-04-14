@@ -4,17 +4,24 @@ import styled from 'styled-components';
 
 import $ from "jquery";
 
+import image from './image/meghan-holmes-wy_L8W0zcpI-unsplash.jpg';
+
 const Background = styled.div`
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #76b852;
-    background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-    background: -moz-linear-gradient(right, #76b852, #8DC26F);
-    background: -o-linear-gradient(right, #76b852, #8DC26F);
-    background: linear-gradient(to left, #76b852, #8DC26F);
+    background: url(${image});
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    // background: #76b852;
+    // background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+    // background: -moz-linear-gradient(right, #76b852, #8DC26F);
+    // background: -o-linear-gradient(right, #76b852, #8DC26F);
+    // background: linear-gradient(to left, #76b852, #8DC26F);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;  
@@ -22,23 +29,32 @@ const Background = styled.div`
 
 const LoginPage = styled.div`
     width: 360px;
-    padding: 8% 0 0;
+    padding: 12% 0 0;
     margin: auto;
+    `;
+    
+const Headline = styled.h1`
+    font-family: "Roboto", sans-serif;
+    width: 360px;
+    font-size: 60px;
+    text-align: center;
+    margin: auto;
+    color: white;
+    text-shadow: 2px 2px 2px black;;
 `;
 
 const FormDiv = styled.div`
     position: relative;
     z-index: 1;
-    background: #FFFFFF;
+    // background: #FFFFFF;
     max-width: 360px;
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    // box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 `;
 
 const Input = styled.input`
-    @import url(https://fonts.googleapis.com/css?family=Roboto:300);
     font-family: "Roboto", sans-serif;
     outline: 0;
     background: #f2f2f2;
@@ -51,7 +67,6 @@ const Input = styled.input`
 `;
 
 const Select = styled.select`
-    @import url(https://fonts.googleapis.com/css?family=Roboto:300);
     font-family: "Roboto", sans-serif;
     outline: 0;
     background: #f2f2f2;
@@ -66,11 +81,10 @@ const Select = styled.select`
 
 
 const Button = styled.button`
-    @import url(https://fonts.googleapis.com/css?family=Roboto:300);
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #4CAF50;
+    background: #5b5959;
     width: 100%;
     border: 0;
     padding: 15px;
@@ -80,14 +94,15 @@ const Button = styled.button`
     transition: all 0.3 ease;
     cursor: pointer;
     &:hover, &:active,&:focus {
-    background: #43A047;
+    background: #787575;
 }
 `;
 
 const Message = styled.p`
     margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 12px;
+    // color: #b3b3b3;
+    color: black;
+    font-size: 15px;
 `;
 
 const MessageLink = styled.a`
@@ -131,7 +146,7 @@ class Login extends Component {
                 info = {
                     email: naverLogin.user.getEmail(),
                     name: naverLogin.user.getNickName(),
-                    password: 12345,
+                    password: "12345",
                     gender: naverLogin.user.getGender(),
                     age: naverLogin.user.getAge(),
                 }
@@ -273,6 +288,7 @@ class Login extends Component {
             <>
                 <Background>
                     <LoginPage>
+                        <Headline>DailySquat</Headline>
                         <FormDiv>
                             <Register className="register-form" method="post" onSubmit={this.signup}>
                                 <Input className="email" type="email" placeholder="이메일" />
@@ -299,8 +315,8 @@ class Login extends Component {
                                 <Input className="login_password" type="password" placeholder="비밀번호" />
                                 <Button onClick={this.signin}>login</Button>
                                 <br />
-                                <br />
-                                <hr />
+                                {/* <br /> */}
+                                {/* <hr /> */}
                                 <br />
                                 <div id="naverIdLogin"></div>
                                 <Message className="message">Not registered? <MessageLink onClick={this.toggle} href="#">Create an account</MessageLink></Message>
