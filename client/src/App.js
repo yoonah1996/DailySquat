@@ -59,7 +59,7 @@ class App extends Component {
 
   selectCount(data) {
     this.setState({
-      selecCount: Number(data)
+      selectCount: Number(data)
     })
   }
 
@@ -86,6 +86,28 @@ class App extends Component {
       })
   }
 
+  getUserInfo = () => {
+    fetch('http://localhost:4000/users/info', {
+      method: 'GET',
+      headers: {
+        accessToken: JSON.stringify(localStorage.getItem('dailySquatToken')),
+      }
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((userInfo) => {
+        this.setState({
+          userInfo: {
+            name: userInfo.name,
+            email: userInfo.email,
+            age: userInfo.age,
+            gender: userInfo.gender,
+            createdAt: userInfo.createdAt,
+          }
+        })
+      })
+  }
   getTotalCount = () => {
     fetch('http://localhost:4000/count/getTotalCount/1', {
       method: 'GET',
@@ -126,7 +148,7 @@ class App extends Component {
 
           <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} />} />
 
-          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selecCount={this.state.selecCount} exercise={this.state.exercise} />} />
+          <Route exact path="/Ing" render={() => <Ing handleCounting={this.handleCounting.bind(this)} selectCount = {this.state.selectCount} exercise = {this.state.exercise}/>} />
 
           <Route exact path="/Result" render={() => <Result count={this.state.count} />} />
 

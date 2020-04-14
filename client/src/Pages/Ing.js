@@ -152,7 +152,7 @@ class Ing extends Component {
                     }}>완료</button>
                 </div>
 
-                <div id="counter">{count}/{this.props.selecCount}</div>
+                <div id="counter">{count}/{this.props.selectCount}</div>
 
 
 
