@@ -20,7 +20,7 @@ class App extends Component {
       isLogin: false,
       count: null,
       exercise: null,
-      selecCount: null,
+      selectCount: null,
       userInfo: {
         name: null,
         email: null,
@@ -61,12 +61,14 @@ class App extends Component {
       exercise: data
     })
   }
-
+ 
   selectCount(data) {
     this.setState({
       selectCount: Number(data)
     })
   }
+
+
 
   // checkTocken(localStorage.getItem('dailySquatToken')){
   //   this.setState({ isLogin: true });
@@ -135,7 +137,7 @@ class App extends Component {
       })
   }
 
-  componentWillMount(){
+  componentWillMount(data){
     if(localStorage.getItem('dailySquatToken')){
       this.setState({ isLogin: true });
       this.getTotalCount();
