@@ -158,7 +158,7 @@ class App extends Component {
             path="/"
             render={(...routeProps) => {
               if(isLogin) {
-                return <Home isLogin={isLogin} selectExercise={this.selectExercise} />;
+                return <Home isLogin={isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} getTotalCount={this.getTotalCount.bind(this)}/>;
               }
               return <Login isLogin={isLogin} handleIsLogin={handleIsLogin} {...routeProps} />;
             }}
