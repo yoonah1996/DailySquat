@@ -31,6 +31,7 @@ class App extends Component {
       totalCount: 0,
     }
     this.selectExercise = this.selectExercise.bind(this);
+    // this.checkTocken = this.checkTocken.bind(this);
   }
 
   handleCounting(count) {
@@ -66,6 +67,10 @@ class App extends Component {
       selectCount: Number(data)
     })
   }
+
+  // checkTocken(localStorage.getItem('dailySquatToken')){
+  //   this.setState({ isLogin: true });
+  // }
 
   // getUserInfo = () => {
   //   fetch('http://localhost:4000/users/info', {
@@ -130,6 +135,17 @@ class App extends Component {
       })
   }
 
+  componentWillMount(){
+    if(localStorage.getItem('dailySquatToken')){
+      this.setState({ isLogin: true });
+      this.getTotalCount();
+      this.getUserInfo();
+    }else{
+      return null
+    }
+    // return localStorage.getItem('dailySquatToken') ? this.setState({ isLogin: true }): null;
+  }
+
 
   render() {
     const { isLogin } = this.state;
@@ -148,7 +164,7 @@ class App extends Component {
           }} />
           <Route exact path="/Home" render={() => <Home isLogin={this.state.isLogin} selectExercise={this.selectExercise} getUserInfo={this.getUserInfo.bind(this)} getTotalCount={this.getTotalCount.bind(this)}/>} />
 
-          <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} handleSignOut={this.handleSignOut.bind(this)}/>} />
+          <Route exact path="/Mypage" render={() => <Mypage userInfo={JSON.stringify(this.state.userInfo)} totalCount={this.state.totalCount} handleSignOut={this.handleSignOut.bind(this)} isLogin={this.state.isLogin}/>} />
 
           <Route exact path="/Start" render={() => <Start selectCount={this.selectCount.bind(this)} />} />
 
