@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 
 class Mypage extends Component {
@@ -58,7 +58,11 @@ class Mypage extends Component {
     return (
       <Container>
         <Row>
-          <Col></Col>
+          <Col>
+          <Button variant="secondary" onClick={() => {
+                this.props.history.push('/Home');
+              }}>Home</Button>
+          </Col>
           <Col>
             <div>아이디 : {JSON.parse(userInfo).email}</div>
             <div> 회원등록 일자 : {JSON.parse(userInfo).createdAt}</div>

@@ -11,7 +11,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
     if (this.props.isLogin) {
       return (
         <Container>
@@ -20,7 +19,7 @@ class Home extends Component {
               <Button variant="secondary" onClick={() => {
                 this.props.getUserInfo();
                 this.props.getTotalCount();
-                this.props.history.push('/Mypage');
+                this.props.history.push('/Mypage')
               }}>mypage</Button> </Col>
             <Col>
               <div>
