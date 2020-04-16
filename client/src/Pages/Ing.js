@@ -63,6 +63,7 @@ class Ing extends Component {
         this.handleWebCam = this.handleWebCam.bind(this)
         this.setCountsetState = this.setCountsetState.bind(this)
         this.setPop = this.setPop.bind(this)
+        this.endResult = this.endResult.bind(this)
     }
 
     componentWillMount() {
@@ -84,6 +85,7 @@ class Ing extends Component {
     setPop() {
         let setcount = this.state.set;
         setcount.shift();
+        if(setcount.length === 0) this.endResult();
         this.setState({
             set: setcount
         })
@@ -99,6 +101,25 @@ class Ing extends Component {
         this.setState({
             webCam: true
         })
+    }
+
+    endResult() {
+        this.handleWebCam();
+        this.props.handleCounting(count)
+        fetch('http://localhost:4000/count/saveCount', {
+            method: 'POST',
+            body: JSON.stringify({
+                categoryId: "1",
+                count: count
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
+            }
+        })
+        count = 0;
+        setCountpop = 0;
+        this.props.history.push('/Result')
     }
 
 
@@ -156,7 +177,7 @@ class Ing extends Component {
                 if (this.state.status === 'squat') {
                     count++
                     setCountpop++
-                    var audio = new Audio(voiceArray[count % 10])
+                    var audio = new Audio(voiceArray[setCountpop % 10])
                     audio.play()
                     if (Number(localStorage.getItem('goalCount')) === setCountpop) {
                         this.setPop();
