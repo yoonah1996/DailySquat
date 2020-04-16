@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Nav} from 'react-bootstrap';
 
 import styled from 'styled-components';
-
 import image from './image/meghan-holmes-wy_L8W0zcpI-unsplash.jpg';
 
 const Background = styled.div`
@@ -17,16 +16,16 @@ const Background = styled.div`
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    // background: #76b852;
+    ${'' /* // background: #76b852;
     // background: -webkit-linear-gradient(right, #76b852, #8DC26F);
     // background: -moz-linear-gradient(right, #76b852, #8DC26F);
     // background: -o-linear-gradient(right, #76b852, #8DC26F);
-    // background: linear-gradient(to left, #76b852, #8DC26F);
+    // background: linear-gradient(to left, #76b852, #8DC26F); */}
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;  
+    -moz-osx-font-smoothing: grayscale;
+    opacity: 0.5;
 `;
-
 
 
 class Mypage extends Component {
@@ -36,7 +35,6 @@ class Mypage extends Component {
     this.state = {
       totalCount: null
     }
-
     this.signout = this.signout.bind(this);
   }
 
@@ -124,38 +122,55 @@ class Mypage extends Component {
     const { userInfo } = this.props;
 
     return (
-      <Background>
-
-        <Container>
-          <Row>
-            <Col><Button variant="secondary" onClick={() => {
-              this.props.history.push('/Home');
-            }}>Home</Button></Col>
-            <Col>
-              <div>아이디 : {JSON.parse(userInfo).email}</div>
-              <div> 회원등록 일자 : {JSON.parse(userInfo).createdAt}</div>
-              <p />
-              <div>{JSON.parse(userInfo).name}님의 현재 누적 {this.state.totalCount}개의 스쿼트를 수행하였습니다</div>
-              <p />
-              <button onClick={async () => {
-                this.signout();
+      <Container>
+        <Background></Background>
+        <Row>
+          <Col><br />
+          <Button variant="outline-dark" onClick={() => {
+            this.props.history.push('/Home');
+          }}>Home</Button>&nbsp;&nbsp;&nbsp;
+          <span style={{"font-weight": "bold", "font-family": "sans-serif", "color":"green"}}>{JSON.parse(userInfo).name}</span>
+          <span> 님, 오늘도 화이팅입니다!</span>
+          </Col>
+          <Col align="right"><br />
+            <Button variant="outline-dark" onClick={async () => {
+              this.signout();
+              this.props.handleSignOut();
+              localStorage.clear();
+              this.props.history.push('/')
+            }}>로그아웃</Button>&nbsp;&nbsp;
+            <Button variant="outline-danger"onClick={() => {
+              let result = window.confirm("정말로 탈퇴하시겠습니까?")
+              if (result) {
+                this.secession();
                 this.props.handleSignOut();
+                localStorage.clear();
                 this.props.history.push('/')
-              }}>로그아웃</button>
-              <button onClick={() => {
-                let result = window.confirm("탈퇴하시겠습니까?")
-                if (result) {
-                  this.secession();
-                  this.props.handleSignOut();
-                  localStorage.clear()
-                  this.props.history.push('/')
-                }
-              }}>회원탈퇴</button>
-            </Col>
-            <Col></Col>
-          </Row>
-        </Container>
-      </Background>
+              }
+            }}>탈퇴하기</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col align="center">
+            <br /><br /><br /><br /><br /><br /><br /><br />
+            {/* <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>아이디 : {JSON.parse(userInfo).email}</div>
+            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>회원등록 일자 : {JSON.parse(userInfo).createdAt}</div> */}
+            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>
+            아이디 : {JSON.parse(userInfo).email}&nbsp;&nbsp;
+            회원등록 일자 : {JSON.parse(userInfo).createdAt}
+            </div>
+            <p />
+            <div style={{"font-weight": "bold", "font-style": "italic", "font-size": "2.0em", "font-family": "sans-serif"}}>
+            <span>{JSON.parse(userInfo).name}님의 누적 스쿼트 개수는 </span>
+            <span>{this.state.totalCount}</span>
+            <span>개 입니다</span>
+            <div>총 소모 칼로리는 {this.state.totalCount * 0.3}kcal입니다</div>
+            </div>
+            <p />
+          </Col>
+        </Row>
+      </Container>
+
     )
   }
 }
