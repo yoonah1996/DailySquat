@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button, Nav} from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert} from 'react-bootstrap';
 
 import styled from 'styled-components';
 import image from './image/meghan-holmes-wy_L8W0zcpI-unsplash.jpg';
@@ -36,6 +36,7 @@ class Mypage extends Component {
       totalCount: null
     }
     this.signout = this.signout.bind(this);
+    //this.AlertDismissible = this.AlertDismissible.bind(this);
   }
 
   getTotalCount = () => {
@@ -116,6 +117,9 @@ class Mypage extends Component {
       })
   }
 
+  
+
+
   render() {
     console.log('props!!!!!!! : ', this.props);
 
@@ -140,7 +144,7 @@ class Mypage extends Component {
               this.props.history.push('/')
             }}>로그아웃</Button>&nbsp;&nbsp;
             <Button variant="outline-danger"onClick={() => {
-              let result = window.confirm("정말로 탈퇴하시겠습니까?")
+              let result = window.confirm("정말로 탈퇴하시겠습니까?");
               if (result) {
                 this.secession();
                 this.props.handleSignOut();
@@ -148,23 +152,27 @@ class Mypage extends Component {
                 this.props.history.push('/')
               }
             }}>탈퇴하기</Button>
+           
           </Col>
         </Row>
         <Row>
           <Col align="center">
-            <br /><br /><br /><br /><br /><br /><br /><br />
-            {/* <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>아이디 : {JSON.parse(userInfo).email}</div>
-            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>회원등록 일자 : {JSON.parse(userInfo).createdAt}</div> */}
-            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>
-            아이디 : {JSON.parse(userInfo).email}&nbsp;&nbsp;
-            회원등록 일자 : {JSON.parse(userInfo).createdAt}
-            </div>
+            <br /><br /><br /><br /><br /><br />
+            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>아이디 : {JSON.parse(userInfo).email}</div>
+            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>회원등록 일자 : {JSON.parse(userInfo).createdAt}</div>
+            {/* <span style={{"font-size": "1.0em", "font-family": "sans-serif"}}>아이디</span>&nbsp;&nbsp;
+            <span style={{"font-weight": "bold"}}>{JSON.parse(userInfo).email}</span><br />
+            <span style={{"font-size": "1.0em", "font-family": "sans-serif"}}>회원등록 일자</span>&nbsp;&nbsp;
+            <span style={{"font-weight": "bold"}}>{JSON.parse(userInfo).createdAt}</span> */}
+            
             <p />
             <div style={{"font-weight": "bold", "font-style": "italic", "font-size": "2.0em", "font-family": "sans-serif"}}>
             <span>{JSON.parse(userInfo).name}님의 누적 스쿼트 개수는 </span>
-            <span>{this.state.totalCount}</span>
-            <span>개 입니다</span>
-            <div>총 소모 칼로리는 {this.state.totalCount * 0.3}kcal입니다</div>
+            <span style={{"color":"navy"}}>{this.state.totalCount}개</span>
+            <span> 입니다</span>
+            <div>
+            <span>총 소모 칼로리는</span> <span style={{"color":"navy"}}>{this.state.totalCount * 0.3}kcal</span><span> 입니다</span>
+            </div>
             </div>
             <p />
           </Col>
