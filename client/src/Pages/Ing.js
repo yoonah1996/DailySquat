@@ -4,6 +4,21 @@ import React, { Component } from 'react'
 // import Result from './Result'
 import { withRouter } from 'react-router-dom';
 
+// import voice from './voice/'+{count}+'.m4a'
+
+import voice1 from './voice/1.m4a'
+import voice2 from './voice/2.m4a'
+import voice3 from './voice/3.m4a'
+import voice4 from './voice/4.m4a'
+import voice5 from './voice/5.m4a'
+import voice6 from './voice/6.m4a'
+import voice7 from './voice/7.m4a'
+import voice8 from './voice/8.m4a'
+import voice9 from './voice/9.m4a'
+import voice10 from './voice/0.m4a'
+
+let voiceArray = [voice10,voice1,voice2,voice3,voice4,voice5,voice6,voice7,voice8,voice9]
+
 var count = 0;
 
 class Ing extends Component {
@@ -83,7 +98,6 @@ class Ing extends Component {
             window.requestAnimationFrame(loop);
         }
         //  console.log(count)
-
         let predict = async () => {
             // Prediction #1: run input through posenet
             // estimatePose can take in an image, video or canvas html element
@@ -91,16 +105,18 @@ class Ing extends Component {
             // Prediction 2: run input through teachable machine classification model
             const prediction = await model.predict(posenetOutput);
             //가능성을 나타내는 함수
-            if (prediction[0].probability.toFixed(2) > 0.80) {
+            if (prediction[0].probability.toFixed(2) > 0.60) {
                 if (this.state.status === 'squat') {
                     count++
 
-                    console.log("this is ing.js state=>count", count)
+                    var audio = new Audio(voiceArray[count%10])
+                    audio.play()
+
                 }
                 // status = 'stand'
                 this.handleStatus('stand')
 
-            } else if (prediction[1].probability.toFixed(2) > 0.80) {
+            } else if (prediction[1].probability.toFixed(2) > 0.60) {
                 // status = 'squat'
                 this.handleStatus('squat')
 
