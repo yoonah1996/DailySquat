@@ -43,7 +43,7 @@ const Background = styled.div`
     -moz-osx-font-smoothing: grayscale;  
 `;
 
-let voiceArray = [voice10,voice1,voice2,voice3,voice4,voice5,voice6,voice7,voice8,voice9]
+let voiceArray = [voice10, voice1, voice2, voice3, voice4, voice5, voice6, voice7, voice8, voice9]
 
 var count = 0;
 var setCountpop = 0;
@@ -62,6 +62,7 @@ class Ing extends Component {
         this.handleWebCam = this.handleWebCam.bind(this)
         this.setCountsetState = this.setCountsetState.bind(this)
         this.setPop = this.setPop.bind(this)
+        this.endResult = this.endResult.bind(this)
     }
 
     componentWillMount() {
@@ -83,6 +84,7 @@ class Ing extends Component {
     setPop() {
         let setcount = this.state.set;
         setcount.shift();
+        if(setcount.length === 0) this.endResult();
         this.setState({
             set: setcount
         })
@@ -98,6 +100,25 @@ class Ing extends Component {
         this.setState({
             webCam: true
         })
+    }
+
+    endResult() {
+        this.handleWebCam();
+        this.props.handleCounting(count)
+        fetch('http://localhost:4000/count/saveCount', {
+            method: 'POST',
+            body: JSON.stringify({
+                categoryId: "1",
+                count: count
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
+            }
+        })
+        count = 0;
+        setCountpop = 0;
+        this.props.history.push('/Result')
     }
 
 
@@ -155,7 +176,7 @@ class Ing extends Component {
                 if (this.state.status === 'squat') {
                     count++
                     setCountpop++
-                    var audio = new Audio(voiceArray[count%10])
+                    var audio = new Audio(voiceArray[setCountpop % 10])
                     audio.play()
                     if (Number(localStorage.getItem('goalCount')) === setCountpop) {
                         this.setPop();
@@ -203,47 +224,48 @@ class Ing extends Component {
 
         return (
             <Background>
-                
 
-            <div>
-                <div id="leftside">
 
-                    <div><canvas id="canvas"></canvas></div>
-                    <div id="label-container"></div>
-                    <button className="button" type="button" onClick={init}>시작</button>
-                    <button className="button" onClick={async (e) => {
-                        e.preventDefault()
-                        await this.handleWebCam();
-                        this.props.handleCounting(count)
-                        fetch('http://localhost:4000/count/saveCount', {
-                            method: 'POST',
-                            body: JSON.stringify({
-                                categoryId: "1",
-                                count: count
-                            }),
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
-                            }
-                        })
-                        count = 0;
-                        setCountpop = 0;
-                        this.props.history.push('/Result')
-                        
-                    }}>완료</button>
+                <div>
+                    <div id="leftside">
+
+                        <div><canvas id="canvas"></canvas></div>
+                        <div id="label-container"></div>
+                        <button className="button" type="button" onClick={init}>시작</button>
+                        <button className="button" onClick={(e) => {
+                            e.preventDefault()
+                            this.endResult();
+                            // await this.handleWebCam();
+                            // this.props.handleCounting(count)
+                            // fetch('http://localhost:4000/count/saveCount', {
+                            //     method: 'POST',
+                            //     body: JSON.stringify({
+                            //         categoryId: "1",
+                            //         count: count
+                            //     }),
+                            //     headers: {
+                            //         'Content-Type': 'application/json',
+                            //         'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
+                            //     }
+                            // })
+                            // count = 0;
+                            // setCountpop = 0;
+                            // this.props.history.push('/Result')
+
+                        }}>완료</button>
+                    </div>
+                    <ul>
+                        {lis}
+                    </ul>
+
+
+                    <div id="counter">{setCountpop}/{localStorage.getItem('goalCount')}</div>
+
+
+
+
                 </div>
-                <ul>
-                    {lis}
-                </ul>
-
-
-                <div id="counter">{setCountpop}/{localStorage.getItem('goalCount')}</div>
-
-
-
-
-            </div>
-                        </Background>
+            </Background>
         )
     }
 }
