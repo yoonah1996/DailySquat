@@ -20,6 +20,7 @@ import voice10 from './voice/0.m4a'
 let voiceArray = [voice10,voice1,voice2,voice3,voice4,voice5,voice6,voice7,voice8,voice9]
 
 var count = 0;
+var setCountpop = 0;
 
 class Ing extends Component {
     constructor(props) {
@@ -27,19 +28,39 @@ class Ing extends Component {
 
         this.state = {
             status: null,
-            webCam: false
+            webCam: false,
+            set: null
         }
 
         this.handleStatus = this.handleStatus.bind(this)
         this.handleWebCam = this.handleWebCam.bind(this)
+        this.setCountsetState = this.setCountsetState.bind(this)
+        this.setPop = this.setPop.bind(this)
     }
 
-    // componentWillUnmount(e) {
-    //     console.log("ing.js is unmounted")
-    //     window.location.reload()
+    componentWillMount() {
+        console.log(localStorage.getItem('goalCount'))
+        // window.location.reload()
+        this.setCountsetState(localStorage.getItem('goalSet'));
+    }
 
-    // }
+    setCountsetState(data) {
+        let arr = []
+        for (let i = 1; i <= data; i++) {
+            arr.push(i)
+        }
+        this.setState({
+            set: arr
+        })
+    }
 
+    setPop() {
+        let setcount = this.state.set;
+        setcount.shift();
+        this.setState({
+            set: setcount
+        })
+    }
 
 
     handleStatus(status) {
@@ -77,7 +98,6 @@ class Ing extends Component {
 
             await webcam.setup(); // request access to the webcam
             await webcam.play();
-            console.log("1")
             window.requestAnimationFrame(loop);
             // append/get elements to the DOM
             const canvas = document.getElementById("canvas");
@@ -108,10 +128,14 @@ class Ing extends Component {
             if (prediction[0].probability.toFixed(2) > 0.60) {
                 if (this.state.status === 'squat') {
                     count++
-
+                    setCountpop++
                     var audio = new Audio(voiceArray[count%10])
                     audio.play()
-
+                    if (Number(localStorage.getItem('goalCount')) === setCountpop) {
+                        this.setPop();
+                        setCountpop = 0;
+                    }
+                    console.log("this is ing.js state=>count", count)
                 }
                 // status = 'stand'
                 this.handleStatus('stand')
@@ -141,10 +165,19 @@ class Ing extends Component {
             }
         }
 
+        const { set } = this.state;
+        let lis = '';
+
+        if (set) {
+            lis = set.map((el, i) => (
+                <div key={i}>
+                    {el}
+                </div>));
+        }
+
         return (
             <div>
                 <div id="leftside">
-                    <h1>Ing.js</h1>
 
                     <div><canvas id="canvas"></canvas></div>
                     <div id="label-container"></div>
@@ -164,12 +197,18 @@ class Ing extends Component {
                                 'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
                             }
                         })
+                        count = 0;
+                        setCountpop = 0;
                         this.props.history.push('/Result')
 
                     }}>완료</button>
                 </div>
+                <ul>
+                    {lis}
+                </ul>
 
-                <div id="counter">{count}/{localStorage.getItem('goalCount')}</div>
+
+                <div id="counter">{setCountpop}/{localStorage.getItem('goalCount')}</div>
 
 
 
