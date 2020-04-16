@@ -53,7 +53,7 @@ function Start(props) {
                 </Col>
                 <Col></Col>
             </Row>
-        </Container >
+        </Container>
     )
 }
 
