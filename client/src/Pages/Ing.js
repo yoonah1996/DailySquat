@@ -173,7 +173,7 @@ class Ing extends Component {
             // Prediction 2: run input through teachable machine classification model
             const prediction = await model.predict(posenetOutput);
             //가능성을 나타내는 함수
-            if (prediction[0].probability.toFixed(2) > 0.60) {
+            if (prediction[0].probability.toFixed(2) > 0.99) {
                 if (this.state.status === 'squat') {
                     count++
                     setCountpop++
@@ -188,7 +188,7 @@ class Ing extends Component {
                 // status = 'stand'
                 this.handleStatus('stand')
 
-            } else if (prediction[1].probability.toFixed(2) > 0.60) {
+            } else if (prediction[1].probability.toFixed(2) > 0.99) {
                 // status = 'squat'
                 this.handleStatus('squat')
 
