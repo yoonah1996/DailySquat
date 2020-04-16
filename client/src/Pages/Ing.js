@@ -40,7 +40,8 @@ const Background = styled.div`
     // background: linear-gradient(to left, #76b852, #8DC26F);
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;  
+    -moz-osx-font-smoothing: grayscale; 
+    opacity: 0.5;
 `;
 
 let voiceArray = [voice10, voice1, voice2, voice3, voice4, voice5, voice6, voice7, voice8, voice9]
@@ -172,7 +173,7 @@ class Ing extends Component {
             // Prediction 2: run input through teachable machine classification model
             const prediction = await model.predict(posenetOutput);
             //가능성을 나타내는 함수
-            if (prediction[0].probability.toFixed(2) > 0.60) {
+            if (prediction[0].probability.toFixed(2) > 0.99) {
                 if (this.state.status === 'squat') {
                     count++
                     setCountpop++
@@ -187,7 +188,7 @@ class Ing extends Component {
                 // status = 'stand'
                 this.handleStatus('stand')
 
-            } else if (prediction[1].probability.toFixed(2) > 0.60) {
+            } else if (prediction[1].probability.toFixed(2) > 0.99) {
                 // status = 'squat'
                 this.handleStatus('squat')
 
@@ -211,61 +212,67 @@ class Ing extends Component {
                 }
             }
         }
-
         const { set } = this.state;
         let lis = '';
 
         if (set) {
             lis = set.map((el, i) => (
-                <div key={i}>
+
+                <span className="set" key={i}>
                     {el}
-                </div>));
+                </span>));
         }
-
+         
         return (
-            <Background>
-
-
-                <div>
+            
+            <div id="background">
+             <Background></Background>
                     <div id="leftside">
 
-                        <div><canvas id="canvas"></canvas></div>
-                        <div id="label-container"></div>
-                        <button className="button" type="button" onClick={init}>시작</button>
-                        <button className="button" onClick={(e) => {
+                    <div><canvas id="canvas"></canvas></div>
+                    <div id="label-container">
+                      <div>
+                        <button className="button1" type="button" onClick={init}>시작</button>
+
+                      </div>
+                    </div>
+                    
+                </div>
+
+
+                <div className="countBox">
+                    {lis}
+
+                    <div id="counter">
+                        {setCountpop}/{localStorage.getItem('goalCount')}
+                    </div>
+                    <div>
+                        <button className="button2" onClick={async (e) => {
                             e.preventDefault()
-                            this.endResult();
-                            // await this.handleWebCam();
-                            // this.props.handleCounting(count)
-                            // fetch('http://localhost:4000/count/saveCount', {
-                            //     method: 'POST',
-                            //     body: JSON.stringify({
-                            //         categoryId: "1",
-                            //         count: count
-                            //     }),
-                            //     headers: {
-                            //         'Content-Type': 'application/json',
-                            //         'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
-                            //     }
-                            // })
-                            // count = 0;
-                            // setCountpop = 0;
-                            // this.props.history.push('/Result')
+                            await this.handleWebCam();
+                            this.props.handleCounting(count)
+                            fetch('http://localhost:4000/count/saveCount', {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    categoryId: "1",
+                                    count: count
+                                }),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'accessToken': JSON.stringify(localStorage.getItem('dailySquatToken')),
+                                }
+                            })
+                            count = 0;
+                            setCountpop = 0;
+                            this.props.history.push('/Result')
 
                         }}>완료</button>
                     </div>
-                    <ul>
-                        {lis}
-                    </ul>
-
-
-                    <div id="counter">{setCountpop}/{localStorage.getItem('goalCount')}</div>
-
-
-
-
                 </div>
-            </Background>
+
+            </div>
+
+
         )
     }
 }
