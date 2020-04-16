@@ -129,7 +129,8 @@ class Mypage extends Component {
           <Button variant="outline-dark" onClick={() => {
             this.props.history.push('/Home');
           }}>Home</Button>&nbsp;&nbsp;&nbsp;
-          <span style={{"font-weight": "bold", "font-family": "sans-serif"}}>{JSON.parse(userInfo).name}</span><span> 님, 오늘도 화이팅입니다!</span>
+          <span style={{"font-weight": "bold", "font-family": "sans-serif", "color":"green"}}>{JSON.parse(userInfo).name}</span>
+          <span> 님, 오늘도 화이팅입니다!</span>
           </Col>
           <Col align="right"><br />
             <Button variant="outline-dark" onClick={async () => {
@@ -139,7 +140,7 @@ class Mypage extends Component {
               this.props.history.push('/')
             }}>로그아웃</Button>&nbsp;&nbsp;
             <Button variant="outline-danger"onClick={() => {
-              let result = window.confirm("탈퇴하시겠습니까?")
+              let result = window.confirm("정말로 탈퇴하시겠습니까?")
               if (result) {
                 this.secession();
                 this.props.handleSignOut();
@@ -154,14 +155,16 @@ class Mypage extends Component {
             <br /><br /><br /><br /><br /><br /><br /><br />
             {/* <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>아이디 : {JSON.parse(userInfo).email}</div>
             <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>회원등록 일자 : {JSON.parse(userInfo).createdAt}</div> */}
-            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>아이디 : {JSON.parse(userInfo).email}&nbsp;&nbsp;
-            회원등록 일자 : {JSON.parse(userInfo).createdAt}</div>
+            <div style={{"font-size": "1.5em", "font-family": "sans-serif"}}>
+            아이디 : {JSON.parse(userInfo).email}&nbsp;&nbsp;
+            회원등록 일자 : {JSON.parse(userInfo).createdAt}
+            </div>
             <p />
             <div style={{"font-weight": "bold", "font-style": "italic", "font-size": "2.0em", "font-family": "sans-serif"}}>
-            <span>{JSON.parse(userInfo).name}님은 현재 누적 </span>
+            <span>{JSON.parse(userInfo).name}님의 누적 스쿼트 개수는 </span>
             <span>{this.state.totalCount}</span>
-            <span>개의 스쿼트를 수행하셨습니다</span>
-            <div>총 소모 칼로리는 {this.state.totalCount * 0.5}kcal입니다</div>
+            <span>개 입니다</span>
+            <div>총 소모 칼로리는 {this.state.totalCount * 0.3}kcal입니다</div>
             </div>
             <p />
           </Col>
