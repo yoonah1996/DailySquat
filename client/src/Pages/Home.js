@@ -78,7 +78,7 @@ class Home extends Component {
                 }}>
               <div className="card-item">
                 <div className="card-inner">
-                  <i className="fas fa-medal">SQUAT</i>
+                  <i className="fas fa-medal exercise">SQUAT</i>
                   <h1>스쿼트</h1>
                 </div>
               </div>
