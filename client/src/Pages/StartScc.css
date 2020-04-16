@@ -1,0 +1,11 @@
+
+            *{margin: 0; padding: 0;}
+            button{background: 0 none; border: 0 none;}
+
+            .buttons{position: relative; text-align: center; margin-top: 100px;}
+            .buttons button{overflow: hidden; position: relative; display: inline-block; vertical-align: top; width: 200px; height: 100px; line-height: 100px; border: 1px solid #225ea7; transition: all 0.5s;}
+            .buttons button:hover{color: #fff;}
+            .buttons button:before{content: ""; z-index: -1; position: absolute; background: #3b3c3d; transition: all 1s;}
+
+            .buttons.buttons2 .button6:before{left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(45deg); width: 200%; height: 0;}
+            .buttons.buttons2 .button6:hover:before{height: 300%;}
