@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 // import voice from './voice/'+{count}+'.m4a'
 
+
 import voice1 from './voice/1.m4a'
 import voice2 from './voice/2.m4a'
 import voice3 from './voice/3.m4a'
@@ -16,6 +17,31 @@ import voice7 from './voice/7.m4a'
 import voice8 from './voice/8.m4a'
 import voice9 from './voice/9.m4a'
 import voice10 from './voice/0.m4a'
+
+import styled from 'styled-components';
+
+import image from './image/meghan-holmes-wy_L8W0zcpI-unsplash.jpg';
+
+const Background = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(${image});
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    // background: #76b852;
+    // background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+    // background: -moz-linear-gradient(right, #76b852, #8DC26F);
+    // background: -o-linear-gradient(right, #76b852, #8DC26F);
+    // background: linear-gradient(to left, #76b852, #8DC26F);
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;  
+`;
 
 let voiceArray = [voice10,voice1,voice2,voice3,voice4,voice5,voice6,voice7,voice8,voice9]
 
@@ -176,6 +202,9 @@ class Ing extends Component {
         }
 
         return (
+            <Background>
+                
+
             <div>
                 <div id="leftside">
 
@@ -200,7 +229,7 @@ class Ing extends Component {
                         count = 0;
                         setCountpop = 0;
                         this.props.history.push('/Result')
-
+                        
                     }}>완료</button>
                 </div>
                 <ul>
@@ -214,6 +243,7 @@ class Ing extends Component {
 
 
             </div>
+                        </Background>
         )
     }
 }
